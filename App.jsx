@@ -1,66 +1,56 @@
 import React, { useState } from 'react';
-/*React component for a user registration form, 
-storing input values in a state representing a user object.
-Upon submission, validate that all fields are filled. 
-Show an alert with 'All fields are required' if validation fails; 
-otherwise, display a welcome alert with 'Welcome {firstName} {lastName}.'*/ 
-function RegistrationForm() {
-  const [käyttäjä, setKäyttäjä] = useState({
-    etunimi: '',
-    sukunimi: '',
-    sähköposti: '',
-    puhelin: '',
-  });
+/*basic React calculator app that takes two user-inputted numbers. 
+It performs addition when the plus button is pressed and subtraction when the minus button is pressed. 
+It the result after each operation. */
+function App() {
+  const [numero1, setNumero1] = useState('');
+  const [numero2, setNumero2] = useState('');
+  const [result, setResult] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setKäyttäjä((prevKäyttäjä) => ({
-      ...prevKäyttäjä,
-      [name]: value,
-    }));
+  const välivaihe = (e, num) => {
+    const value = e.target.value;
+    num === 1 ? setNumero1(value) : setNumero2(value);
   };
 
-  const handleSubmit = () => {
-    const { etunimi, sukunimi, sähköposti, puhelin } = käyttäjä;
+  const laskin = (operation) => {
+    const parsedNumero1 = Number(numero1);
+    const parsedNumero2 = Number(numero2);
 
-    if (!etunimi || !sukunimi || !sähköposti || !puhelin) {
-      alert('Kaikki kentät ovat pakollisia');
-    } else {
-      alert(`Tervetuloa ${etunimi} ${sukunimi}`);
+    if (isNaN(parsedNumero1) || isNaN(parsedNumero2)) {
+      setResult('Please enter valid numbers.');
+      return;
+    }
+
+    switch (operation) {
+      case 'add':
+        setResult(parsedNumero1 + parsedNumero2);
+        break;
+      case 'subtract':
+        setResult(parsedNumero1 - parsedNumero2);
+        break;
+      default:
+        setResult('Invalid operation');
     }
   };
 
   return (
     <div>
-      <h2>Käyttäjän rekisteröintilomake</h2>
+      <h2>Calculator</h2>
       <div>
-        <label>Etunimi:</label>
-        <input type="text" name="etunimi" value={käyttäjä.etunimi} onChange={handleInputChange} />
+        <label>Number 1:</label>
+        <input type="text" value={numero1} onChange={(e) => välivaihe(e, 1)} />
       </div>
       <div>
-        <label>Sukunimi:</label>
-        <input type="text" name="sukunimi" value={käyttäjä.sukunimi} onChange={handleInputChange} />
+        <label>Number 2:</label>
+        <input type="text" value={numero2} onChange={(e) => välivaihe(e, 2)} />
       </div>
       <div>
-        <label>Sähköposti:</label>
-        <input type="email" name="sähköposti" value={käyttäjä.sähköposti} onChange={handleInputChange} />
+        <button onClick={() => laskin('add')}>+</button>
+        <button onClick={() => laskin('subtract')}>-</button>
       </div>
-      <div>
-        <label>Puhelin:</label>
-        <input type="text" name="puhelin" value={käyttäjä.puhelin} onChange={handleInputChange} />
-      </div>
-      <button onClick={handleSubmit}>Lähetä</button>
+      {result !== null && <p>Result: {result}</p>}
     </div>
   );
 }
 
-function App1() {
-  return (
-    <div>
-      <h1>App1</h1>
-      <RegistrationForm />
-    </div>
-  );
-}
-
-export default App1;
+export default App;
