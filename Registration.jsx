@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-/*React component for a user registration form, storing input values in a state representing a user object. Upon submission, validate that all fields are filled. Show an alert with 'All fields are required' if validation fails; otherwise, it displays a welcome alert with 'Welcome {firstName} {lastName}.'*/ 
+/*React component for a user registration form, 
+storing input values in a state representing a user object. 
+Upon submission, validate that all fields are filled.
+Show an alert with 'All fields are required' if validation fails; 
+otherwise, it displays a welcome alert with 'Welcome {firstName} {lastName}.'*/ 
 function Rekisteri() {
   const [käyttäjä, setKäyttäjä] = useState({
     etunimi: '',
